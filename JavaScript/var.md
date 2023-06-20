@@ -116,7 +116,9 @@ object = null;
 //and here is where our friend Garbage Collector works and junks it to free the memory
 ```
 
-if the references are interlinked more details here: https://javascript.info/garbage-collection#interlinked-objects and you remove the root object that points to all the values the removed values are called **Unreachable island**
+if the references are interlinked more details here: https://javascript.info/garbage-collection#interlinked-objects 
+
+and you remove the root object that points to all the values the removed values are called **Unreachable island**
 
 **digging deeper into the GC** the internal algorithm:
 it's called 'mark-and-sweep' at it works as follows:
