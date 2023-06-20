@@ -7,7 +7,6 @@
     and they are always hoisted and tolerate redeclaration ' That's the difference in a nutshell '
 
         - a block scope means the scope in the if conditions and the loops
-
 ```js
 if (true) {
 	var test = true; // if statement is a block and it should have a lexical environment 'modern JS feature'
@@ -28,7 +27,7 @@ console.log(test); // true, the variable lives after if. it should be undefined
 
     So this code:
 
-    ```js
+```js
 
 function anything() {
 
@@ -42,7 +41,7 @@ function anything() {
 
 anything();
 
-    ```
+```
 
 …Is technically the same as this (moved var phrase above):
 
@@ -63,15 +62,13 @@ anything();
     but it won't be assigned any value so it will run but the variable will equal null
 
     -With var, we can redeclare a variable any number of times. If we use var with an already-declared variable, it’s just ignored:
-
-    ```js
+```js
     var user = "Pete";
 
     var user = "John"; // this "var" does nothing (already declared) // ...it doesn't trigger an error
 
     console.log(user); // John
-
-    ```
+```
 
 ## So how did they manage to work around this in the old days ' IIFE '
 
