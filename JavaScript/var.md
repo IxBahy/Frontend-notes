@@ -176,6 +176,7 @@ an IIFE is
 ```
 Question 1: why is it wrapped in parenthesis?
 - Javascript engine when encountering the keyword "function" understand that this is a declaration and thus it needs a name so our code above will cause an error -> SyntaxError: Function statements require a function name
+
 Question 2: why don't we add a name?
 - Javascript doesn't allow the function declaration to be called immediately 
 
