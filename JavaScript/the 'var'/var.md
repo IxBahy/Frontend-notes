@@ -59,8 +59,8 @@ anything();
 
     note: declaration is hoisted but the assignment is not
 
-    so if we declare a variable and assigned it below but referenced it above it will run because the declaration is raised but it won't be assigned any value so it will run but the variable will equal null
-
+    so if we declare a variable and assigned it below but referenced it above it will run because the declaration is raised
+    but it won't be assigned any value so it will run but the variable will equal null
 
     -With var, we can redeclare a variable any number of times. If we use var with an already-declared variable, it’s just ignored:
 
