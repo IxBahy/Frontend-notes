@@ -75,7 +75,7 @@ what did it cause
 
 ### Global namespace pollution
 
--first we have to talk about something you didn't even know before
+- first we have to talk about something you didn't even know before
     JAVASCRIPT HAS A GARBAGE COLLECTOR
 tho it might seem obvious but probably not a lot of people read about it
 why?
@@ -86,13 +86,13 @@ What happens when something is not needed anymore? How does the JavaScript engin
 **reachability** In a nutshell it means that all the variables we can currently reach and use will be put in the memory the others are discarded
 
 values:
--root values:
+- root values:
     -The currently executing function, its local variables and parameters.
     -Other functions on the current chain of nested calls 'event loop', their local variables and parameters.
     -Global variables.
     -(there are some other, internal ones as well)
 
--reachable values:
+- reachable values:
 Any other value is considered reachable if it’s reachable from a root by a reference or by a chain of references.
 
 -unreachable:
@@ -119,18 +119,18 @@ if the references are interlinked more details here: https://javascript.info/gar
 
 **digging deeper into the GC** the internal algorithm:
 it's called 'mark-and-sweep' at it works as follows:
--The garbage collector takes the global object as a root and “marks” all the references from it.
--then it considers each mark a new root and marks all the references from it 'will look like a tree'
--And so on until every reachable (from the roots) reference is visited.
--All objects except marked ones are removed.
+- The garbage collector takes the global object as a root and “marks” all the references from it.
+- then it considers each mark a new root and marks all the references from it 'will look like a tree'
+- And so on until every reachable (from the roots) reference is visited.
+- All objects except marked ones are removed.
 
 the JS engine applies some optimizations to this algorithm:
         
--Generational collection: objects are split into two sets “new ones” and “old ones”. In typical code, many objects have ashort life span: they appear, do their job and die fast, so it makes sense to track new objects and clear the memory fromthem if that’s the case. Those that survive for long enough, become “old” and are examined less often.
+- Generational collection: objects are split into two sets “new ones” and “old ones”. In typical code, many objects have ashort life span: they appear, do their job and die fast, so it makes sense to track new objects and clear the memory fromthem if that’s the case. Those that survive for long enough, become “old” and are examined less often.
 
--Incremental collection: marking the whole object set at once, it may take some time and introduce visible delays in theexecution the engine splits the whole set of existing objects into multiple parts and then clears these parts one afteranother There are many small garbage collections instead of a total one. That requires some extra bookkeeping between them totrack changes, but we get many tiny delays instead of a big one.
+- Incremental collection: marking the whole object set at once, it may take some time and introduce visible delays in theexecution the engine splits the whole set of existing objects into multiple parts and then clears these parts one afteranother There are many small garbage collections instead of a total one. That requires some extra bookkeeping between them totrack changes, but we get many tiny delays instead of a big one.
 
--Idle-time collection: the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on theexecution.
+- Idle-time collection: the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on theexecution.
 
 #### Back to global namespace pollution
 
@@ -174,9 +174,9 @@ an IIFE is
         //it's removed from the memory by the GC
 ```
 Question 1: why is it wrapped in parenthesis?
--Javascript engine when encountering the keyword "function" understand that this is a declaration and thus it needs a name so our code above will cause an error -> SyntaxError: Function statements require a function name
+- Javascript engine when encountering the keyword "function" understand that this is a declaration and thus it needs a name so our code above will cause an error -> SyntaxError: Function statements require a function name
 Question 2: why don't we add a name?
--javascript doesn't allow the function declaration to be called immediately 
+- Javascript doesn't allow the function declaration to be called immediately 
 
 there are other ways to do this in JS it doesn't have to be a parenthesis 
 
