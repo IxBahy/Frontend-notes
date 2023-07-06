@@ -37,9 +37,7 @@ for (let i = 0; i <= 10; i++) {
 console.log(i); // will give an error
 ```
 
-why will it give an error that's because the GC did its job and removed the 'i' from the memory as soon as the block ended
-
-if I told you if we use var in the second case it will not be collected by the GC and will stay in the memory if don't understand why check my article about the var keyword. LINK HERE
+why will it give an error that's because the GC did its job and removed the 'i' from the memory as soon as the block ended if we use var in the second case it will not be collected by the GC and will stay in the memory
 
 - to understand more of the code security what can be accessed at the current scope and what can't it's not good to have every variable available throughout the whole app
 
@@ -185,19 +183,99 @@ hmmm why did it use the global 'a' while the nearest outer environment was the b
 
 ![Example](./assets/closure.webp)
 
-a clouser is a function and the lexical enviroment where it was defined 
-and by lexical in this context we mean parent environment
+a clouser is a function and the lexical enviroment where it was defined and by lexical in this context we mean parent environment so what is magical about the closures after all it allows us to store the context of some variables even after they are removed and no longer reachable in the code.
+
+###### so a good question here if we can access the variable environment even after it's removal where is it stored?
+
+first we know that we have the execution stack 'call stack' that stores eact execution context which is a data structure that contains information about a function's execution environment.
+
+It includes several components that are stored within the context :
+
+- Variable Environment
+- Scope Chain
+- This Value
+- Parameters
+- References to the outer environment "for nested functions"
+
+okay that was almost a sum for a lot of things we said above so in the _JavaScript Var History_ article we talked about the garbage ccollector and the concept of reachablility its the reason why the References to the outer environment is accessable even after the variable removal
+
+why?
+
+because the child context will still point at the value stored in the heap so the GC wont remove it
+
+![Example](./assets/contexts%20diagram.png)
+
+_all functions in ECMAScript are closures_ and the ones defined in the global scope outer environment refrence is the global environment
 
 ```js
-let x = 20;
+let x = 10;
 
 function foo() {
-  console.log(x); // free variable "x" == 20
+  console.log(x);
+}
+
+// foo is a closure
+foo: <FunctionObject> = {
+  [[Call]]: <code block of foo>,
+  [[Scope]]: [ //in here we store the parent environment if exist
+    global: {
+      x: 10
+    }
+  ],
+  ... // other properties
+};
+
+```
+
+in more simple psudo code
+
+```js
+let x = 10;
+
+function foo() {
+  console.log(x); // free variable "x" == 10
 }
 
 // Closure for foo
 let fooClosure = {
   code: foo // reference to function
-  environment: {x: 20}, // context for searching free variables
+  environment: {x: 10}, // context for searching free variables
 };
 ```
+
+the more the function is nested the more this code will be much complicated but I hope you got the idea
+
+so as the function can access the parent environment will a change on it effect other functions sharing this environment as well.
+
+the answer is YES
+
+as we see in this code
+
+```js
+let firstClosure;
+let secondClosure;
+
+function foo() {
+	let x = 1;
+
+	firstClosure = function () {
+		return ++x;
+	};
+	secondClosure = function () {
+		return --x;
+	};
+
+	x = 2; // affection on AO["x"], which is in [[Scope]] of both closures
+
+	console.log(firstClosure()); // 3, via firstClosure.[[Scope]]
+}
+
+foo();
+
+console.log(firstClosure()); // 4
+console.log(secondClosure()); // 3
+```
+
+closures are one of the things that allows JS to be flexable and its one of the things that the components in frameworks rely on it it allows creating more encapsulated and reusable components. Closures allow you to define private variables and functions within a component and expose only the necessary interface to the outside world
+
+that's all for today hope you enjoyed it :)
