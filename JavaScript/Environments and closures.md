@@ -1,5 +1,3 @@
-.prettierignore
-
 # Scopes and closure
 
 some people said JavaScript has 2 scopes others said 3 and frankly some said 4 !!
